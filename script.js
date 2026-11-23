@@ -109,20 +109,16 @@ function calcularTomadas() {
 
     let qtdTomadas = 1;
     let tipoDesc = '';
-    let regra = '';
 
     if (currentTomadasTipo === 'I') {
         qtdTomadas = Math.ceil(perimetro / 5);
         tipoDesc = 'Quarto / Sala (Tipo I)';
-        regra = `${perimetro.toFixed(2)}m ÷ 5m (arredondado para cima)`;
     } else if (currentTomadasTipo === 'II') {
         qtdTomadas = Math.ceil(perimetro / 3.5);
         tipoDesc = 'Cozinha / Área de serviço (Tipo II)';
-        regra = `${perimetro.toFixed(2)}m ÷ 3,5m (arredondado para cima)`;
     } else if (currentTomadasTipo === 'III') {
         qtdTomadas = 1;
         tipoDesc = 'Menos de 6m² (Tipo III)';
-        regra = 'Mínimo de 1 tomada pela NBR 5410';
     }
 
     const resultadoFinal = `${qtdTomadas} tomada(s) mínimas`;
@@ -132,7 +128,6 @@ function calcularTomadas() {
             <div class="result-main-value">${resultadoFinal}</div>
             <div class="result-detail-line"><strong>Ambiente:</strong> ${nome} (${tipoDesc})</div>
             <div class="result-detail-line"><strong>Perímetro:</strong> ${perimetro.toFixed(2)} m</div>
-            <div class="result-detail-line"><strong>Regra:</strong> ${regra}</div>
         </div>
     `;
 }
