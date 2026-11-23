@@ -1,0 +1,1025 @@
+/* RESET & CONFIGURAÇÃO BÁSICA */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-dark: #122338;
+    --accent-gold: #f8be35;
+    --accent-gold-rgb: 248, 190, 53;
+    --gray-bg: #e1e3e6;
+    --result-bg: #dddfde;
+    --border-color: #20354b;
+    --purple-guide: #a274db; /* Dotted guidelines from mockup */
+    --text-dark: #111111;
+    --text-muted: #555555;
+    --transition-speed: 0.3s;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image: url('icones/Backgroud.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 1024px;
+    min-height: 680px;
+    padding: 30px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* TELA GERAL */
+.app-screen {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    animation: fadeIn 0.4s ease-in-out forwards;
+}
+
+.app-screen.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   TELA 01: HOME SCREEN
+   ========================================================================== */
+.home-header {
+    text-align: center;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-container {
+    margin-bottom: 15px;
+}
+
+.main-logo {
+    max-height: 100px;
+    width: auto;
+    object-fit: contain;
+}
+
+.main-title {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0px rgba(var(--accent-gold-rgb), 0.3);
+    margin-bottom: 25px;
+}
+
+.sub-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--primary-dark);
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+}
+
+.title-separator {
+    width: 600px;
+    max-width: 90%;
+    height: 12px;
+    background-color: var(--primary-dark);
+    border-radius: 6px;
+}
+
+.home-menu {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Estilo do Card com a linha escura por fora */
+.menu-card {
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(4px);
+    transition: all var(--transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-dark);
+}
+
+/* Moldura dourada interna com o ícone */
+.icon-wrapper {
+    background-color: white;
+    border: 3px solid var(--accent-gold);
+    border-radius: 8px;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    box-shadow: inset 0 0 10px rgba(var(--accent-gold-rgb), 0.2), 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.icon-wrapper img {
+    max-width: 85px;
+    max-height: 85px;
+    object-fit: contain;
+}
+
+.card-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ==========================================================================
+   ESTILOS COMUNS PARA AS TELAS DE CÁLCULO (02 a 05)
+   ========================================================================== */
+
+/* Botão Home no topo direito */
+.home-btn {
+    position: absolute;
+    top: 0px;
+    right: 30px;
+    background-color: white;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 8px;
+    cursor: pointer;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: all var(--transition-speed) ease;
+}
+
+.home-btn:hover {
+    transform: scale(1.05);
+    background-color: #f8f9fa;
+    border-color: var(--primary-dark);
+}
+
+.home-btn img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+/* Cabeçalho da tela */
+.screen-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+.header-card {
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(4px);
+    width: 300px;
+}
+
+.header-icon-wrapper {
+    margin-bottom: 8px;
+    width: 100px;
+    height: 100px;
+}
+
+.header-icon-wrapper img {
+    max-width: 70px;
+    max-height: 70px;
+}
+
+.screen-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* Corpo da tela: duas colunas */
+.screen-body {
+    display: flex;
+    width: 100%;
+    gap: 30px;
+    align-items: stretch;
+    margin-bottom: 30px;
+}
+
+.control-panel {
+    flex: 1.1;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.divider-line {
+    width: 2px;
+    background-color: var(--text-dark);
+    align-self: stretch;
+}
+
+.result-panel {
+    flex: 1.1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.result-panel h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+/* Bloco Cabeçalho da Seção de Inputs */
+.panel-header-btn {
+    background-color: var(--gray-bg);
+    border: 1.5px solid var(--border-color);
+    border-radius: 20px;
+    padding: 10px 25px;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-align: center;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    width: fit-content;
+    align-self: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Para a guia ativa na tela de luminárias */
+.panel-header-btn.active-tab {
+    border: 2px solid #0056b3;
+    background-color: #e6f0fa;
+}
+
+/* Campos de entrada */
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+}
+
+.input-group label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    flex: 1;
+}
+
+.input-wrapper {
+    position: relative;
+    flex: 1.2;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input, .input-wrapper select {
+    width: 100%;
+    padding: 10px 15px;
+    padding-right: 40px; /* Espaço para unidade */
+    border: 1.5px solid var(--border-color);
+    border-radius: 20px;
+    background-color: var(--gray-bg);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: center;
+    color: var(--text-dark);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.input-wrapper select {
+    padding-right: 20px;
+    text-align-last: center;
+}
+
+.input-wrapper input:focus, .input-wrapper select:focus {
+    background-color: white;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 8px rgba(var(--accent-gold-rgb), 0.3);
+}
+
+.input-wrapper .unit {
+    position: absolute;
+    right: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+/* Opcionais/Sub-seção de luminárias */
+.extra-inputs-box {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px dashed var(--border-color);
+}
+.section-subtitle {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.mt-1 { margin-top: 8px !important; }
+
+/* Contêiner de opções (Tipo I, II, III) */
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.option-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.option-label {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-dark);
+    flex: 1;
+}
+
+/* Botões do Tipo I, II, III */
+.option-btn {
+    flex: 1.2;
+    background-color: var(--gray-bg);
+    border: 1.5px solid var(--border-color);
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.option-btn:hover {
+    background-color: white;
+    border-color: var(--accent-gold);
+}
+
+.option-btn.active {
+    background-color: var(--primary-dark);
+    color: white;
+    border-color: var(--primary-dark);
+    font-weight: 600;
+}
+
+/* Botões de Seleção Bifásico/Trifásico */
+.toggle-container {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.toggle-btn {
+    flex: 1;
+    background-color: var(--gray-bg);
+    border: 1.5px solid var(--border-color);
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.toggle-btn:hover {
+    background-color: white;
+    border-color: var(--accent-gold);
+}
+
+.toggle-btn.active {
+    background-color: var(--primary-dark);
+    color: white;
+    border-color: var(--primary-dark);
+    font-weight: 600;
+}
+
+/* Caixa de Resultado (Cinza) */
+.result-box {
+    flex: 1;
+    background-color: var(--result-bg);
+    border: 1.5px solid var(--border-color);
+    border-radius: 4px;
+    padding: 20px;
+    min-height: 180px;
+    max-height: 300px;
+    overflow-y: auto;
+    font-family: 'Inter', sans-serif;
+}
+
+.placeholder-text {
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+    margin-top: 50px;
+    font-size: 0.9rem;
+}
+
+.result-box h4 {
+    font-size: 1.05rem;
+    color: var(--primary-dark);
+    margin-bottom: 15px;
+    font-weight: 700;
+    border-bottom: 2px solid rgba(18, 35, 56, 0.15);
+    padding-bottom: 5px;
+}
+
+.result-box p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.result-box .highlight {
+    font-weight: 700;
+    color: var(--primary-dark);
+    background-color: rgba(248, 190, 53, 0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.result-box .alert-text {
+    font-weight: 600;
+    color: #b02a37;
+    background-color: rgba(220, 53, 69, 0.1);
+    padding: 8px 12px;
+    border-radius: 6px;
+    border-left: 4px solid #dc3545;
+    margin-top: 15px;
+    font-size: 0.85rem;
+}
+
+.result-box .sub-math {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: monospace;
+    background: rgba(0,0,0,0.03);
+    padding: 5px;
+    border-radius: 4px;
+    display: block;
+    margin-top: 4px;
+}
+
+/* HISTÓRICO DE CÁLCULOS NA CAIXA DE RESULTADOS */
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    border-bottom: 2px solid rgba(18, 35, 56, 0.15);
+    padding-bottom: 5px;
+}
+
+.history-header h4 {
+    margin-bottom: 0 !important;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+}
+
+.clear-history-btn {
+    border: none;
+    background: transparent;
+    color: #b02a37;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.clear-history-btn:hover {
+    color: #8a1f29;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border-color);
+    font-size: 0.85rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    animation: slideIn 0.2s ease-out forwards;
+}
+
+.history-item.flex-column {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.item-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.item-num {
+    font-weight: 700;
+    background-color: var(--primary-dark);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+.item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.item-result {
+    display: flex;
+    align-items: center;
+}
+
+.item-results-grid {
+    padding-left: 15px;
+    font-size: 0.8rem;
+    border-left: 3px solid var(--accent-gold);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.sub-text {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+
+/* Rodapé das Telas de Cálculo */
+.screen-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.action-btn {
+    border: 1.5px dashed var(--purple-guide);
+    border-radius: 12px;
+    padding: 3px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: transform var(--transition-speed) ease;
+}
+
+.action-btn:hover {
+    transform: scale(1.05);
+}
+
+/* O botão Calcular real dentro do contorno pontilhado */
+.action-btn::after {
+    content: "Calcular";
+}
+
+/* Ajustando o botão para conter o botão cinza por dentro */
+.action-btn {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-transform: capitalize;
+}
+
+.action-btn {
+    /* Sobrescrever para renderizar exatamente o botão cinza interno */
+    padding: 3px;
+}
+
+/* Vamos estilizar o botão Calcular com a tag button diretamente de forma elegante */
+button.action-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    background: transparent;
+    padding: 6px;
+}
+
+/* Estilo do botão conforme o mockup */
+.action-btn {
+    border: 1.5px dashed var(--purple-guide);
+    border-radius: 12px;
+    background: transparent;
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-btn::after {
+    display: none; /* remove o truque do content */
+}
+
+/* Como queremos o botão interno com fundo cinza, vamos estilizá-lo direto:
+   No HTML, usamos <button class="action-btn">Calcular</button>
+   Vamos criar um wrapper ou estilizar o próprio botão para dar o efeito tracejado roxo externo
+   e o preenchimento cinza com borda escura interna.
+*/
+button.action-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--text-dark);
+    background-color: var(--gray-bg);
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
+    padding: 10px 40px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    outline: none;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button.action-btn:hover {
+    background-color: white;
+    border-color: var(--accent-gold);
+    transform: scale(1.02);
+}
+
+button.action-btn:active {
+    transform: scale(0.98);
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 900px) {
+    #app-container {
+        padding: 15px;
+    }
+    
+    .home-menu {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+    
+    .screen-body {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .divider-line {
+        width: 100%;
+        height: 2px;
+    }
+    
+    .home-btn {
+        right: 15px;
+        top: -10px;
+        width: 44px;
+        height: 44px;
+    }
+    .home-btn img {
+        width: 24px;
+        height: 24px;
+    }
+    .title-separator {
+        width: 100%;
+    }
+}
+
+@media (max-width: 500px) {
+    .home-menu {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .main-title {
+        font-size: 2.2rem;
+    }
+    
+    .sub-title {
+        font-size: 1rem;
+    }
+    
+    .input-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .input-wrapper {
+        width: 100%;
+    }
+}
+
+/* ==========================================================================
+   TABELA DO PROJETO E EXPORTAÇÃO
+   ========================================================================== */
+
+.action-btn-secondary {
+    background-color: var(--primary-dark);
+    color: white;
+    border: 1.5px solid var(--border-color);
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+.action-btn-secondary:hover {
+    background-color: white;
+    color: var(--primary-dark);
+    border-color: var(--accent-gold);
+}
+.action-btn-secondary:active {
+    transform: scale(0.98);
+}
+
+.action-btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: 1.5px solid #dc3545;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+.action-btn-danger:hover {
+    background-color: white;
+    color: #dc3545;
+    border-color: #dc3545;
+}
+.action-btn-danger:active {
+    transform: scale(0.98);
+}
+
+.project-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    margin-top: 10px;
+}
+.project-table th {
+    padding: 12px 10px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    border-bottom: 2px solid var(--border-color);
+}
+.project-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(18, 35, 56, 0.15);
+    color: var(--text-dark);
+    font-size: 0.85rem;
+}
+.project-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.table-remove-btn {
+    background: transparent;
+    border: none;
+    color: #dc3545;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.8rem;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+.table-remove-btn:hover {
+    color: #b02a37;
+}
+
+.add-table-btn {
+    background-color: var(--gray-bg);
+    border: 1.5px solid var(--border-color);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+    margin-left: 10px;
+}
+.add-table-btn:hover {
+    background-color: var(--accent-gold);
+    border-color: var(--primary-dark);
+    transform: scale(1.03);
+}
+.add-table-btn img {
+    width: 12px;
+    height: 12px;
+    object-fit: contain;
+}
+
+@media (max-width: 500px) {
+    .home-menu {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   MODAL DE PRÉ-VISUALIZAÇÃO
+   ========================================================================== */
+.modal {
+    display: none; /* Oculto por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    animation: modalFadeIn 0.3s ease-in-out forwards;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: auto;
+    padding: 0;
+    border: 2px solid var(--border-color);
+    width: 95%;
+    max-width: 960px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease-out forwards;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+}
+
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 2px solid var(--border-color);
+    background-color: var(--primary-dark);
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.close-modal-btn {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.close-modal-btn:hover {
+    color: var(--accent-gold);
+}
+
+.modal-body {
+    padding: 15px;
+    overflow: hidden;
+    background-color: #f1f3f5;
+    flex: 1;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #dddddd;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    background-color: #f8f9fa;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}

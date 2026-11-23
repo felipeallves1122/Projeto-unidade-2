@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volt Calc - Dimensionamento Elétrico</title>
+    <!-- Google Fonts: Cinzel (para títulos elegantes) e Inter (para textos e controles) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+    <!-- CONTAINER PRINCIPAL DO SPA -->
+    <div id="app-container">
+
+        <!-- ==================== TELA 01: HOME ==================== -->
+        <section id="screen-home" class="app-screen active">
+            <div class="home-header">
+                <div class="logo-container">
+                    <img src="icones/Logo.png" alt="Volt Calc Logo" class="main-logo">
+                </div>
+                <h1 class="main-title">VOLT CALC</h1>
+                <h2 class="sub-title">ETAPAS DO PROJETO</h2>
+                <div class="title-separator"></div>
+            </div>
+
+            <div class="home-menu">
+                <!-- Card 1: Tomadas -->
+                <div class="menu-card" onclick="navigateTo('tomadas')">
+                    <div class="icon-wrapper">
+                        <img src="icones/Tomada.png" alt="Tomadas Icon">
+                    </div>
+                    <span class="card-label">DIMENSIONAMENTO DE TOMADAS</span>
+                </div>
+
+                <!-- Card 2: Luminarias -->
+                <div class="menu-card" onclick="navigateTo('luminarias')">
+                    <div class="icon-wrapper">
+                        <img src="icones/Lampada.png" alt="Luminarias Icon">
+                    </div>
+                    <span class="card-label">DIMENSIONAMENTO DE LUMINARIAS</span>
+                </div>
+
+                <!-- Card 3: Disjuntores -->
+                <div class="menu-card" onclick="navigateTo('disjuntores')">
+                    <div class="icon-wrapper">
+                        <img src="icones/Disjuntor.png" alt="Disjuntores Icon">
+                    </div>
+                    <span class="card-label">DIMENSIONAMENTO DE DISJUNTORES</span>
+                </div>
+
+                <!-- Card 4: Bitola -->
+                <div class="menu-card" onclick="navigateTo('bitola')">
+                    <div class="icon-wrapper">
+                        <img src="icones/Bitola.png" alt="Bitola Icon">
+                    </div>
+                    <span class="card-label">DIMENSIONAMENTO DE BITOLA</span>
+                </div>
+
+                <!-- Card 5: Tabela de Projeto -->
+                <div class="menu-card" onclick="navigateTo('tabela')">
+                    <div class="icon-wrapper">
+                        <img src="icones/tabelas.png" alt="Tabela Icon">
+                    </div>
+                    <span class="card-label">TABELA DO PROJETO</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== TELA 02: TOMADAS ==================== -->
+        <section id="screen-tomadas" class="app-screen">
+            <button class="home-btn" onclick="navigateTo('home')">
+                <img src="icones/home.png" alt="Home">
+            </button>
+
+            <div class="screen-header">
+                <div class="header-card">
+                    <div class="icon-wrapper header-icon-wrapper">
+                        <img src="icones/Tomada.png" alt="Tomada">
+                    </div>
+                    <h2 class="screen-title">DIMENSIONAMENTO DE TOMADAS</h2>
+                </div>
+            </div>
+
+            <div class="screen-body">
+                <div class="control-panel">
+                    <div class="panel-header-btn">TOMADAS/m</div>
+                    
+                    <div class="input-group">
+                        <label for="tomadas-nome">Nome do Ambiente:</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="tomadas-nome" placeholder="Ex: Sala de Estar, Quarto 1">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="tomadas-perimetro">Perímetro:</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="tomadas-perimetro" placeholder="0,00" step="0.01" min="0">
+                            <span class="unit">m</span>
+                        </div>
+                    </div>
+
+                    <div class="options-container">
+                        <div class="option-row">
+                            <span class="option-label">Quarto / Sala</span>
+                            <button class="option-btn" id="tomadas-tipo-I" onclick="selectTomadasTipo('I')">Tipo I</button>
+                        </div>
+                        <div class="option-row">
+                            <span class="option-label">Cozinha / Área de serviço</span>
+                            <button class="option-btn" id="tomadas-tipo-II" onclick="selectTomadasTipo('II')">Tipo II</button>
+                        </div>
+                        <div class="option-row">
+                            <span class="option-label">Menos de 6m²</span>
+                            <button class="option-btn" id="tomadas-tipo-III" onclick="selectTomadasTipo('III')">Tipo III</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider-line"></div>
+
+                <div class="result-panel">
+                    <h3>Resultado:</h3>
+                    <div class="result-box" id="result-tomadas">
+                        <p class="placeholder-text">Configure os valores e clique em Calcular.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="screen-footer">
+                <button class="action-btn" onclick="calcularTomadas()">Calcular</button>
+            </div>
+        </section>
+
+
+        <!-- ==================== TELA 03: LUMINARIAS ==================== -->
+        <section id="screen-luminarias" class="app-screen">
+            <button class="home-btn" onclick="navigateTo('home')">
+                <img src="icones/home.png" alt="Home">
+            </button>
+
+            <div class="screen-header">
+                <div class="header-card">
+                    <div class="icon-wrapper header-icon-wrapper">
+                        <img src="icones/Lampada.png" alt="Lâmpada">
+                    </div>
+                    <h2 class="screen-title">DIMENSIONAMENTO DE LUMINARIAS</h2>
+                </div>
+            </div>
+
+            <div class="screen-body">
+                <div class="control-panel">
+                    <div class="panel-header-btn active-tab">LUMENS/m²</div>
+                    
+                    <div class="input-group">
+                        <label for="luminarias-nome">Nome do Ambiente:</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="luminarias-nome" placeholder="Ex: Sala de Estar, Quarto 1">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="luminarias-area">Área:</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="luminarias-area" placeholder="0,00" step="0.01" min="0">
+                            <span class="unit">m²</span>
+                        </div>
+                    </div>
+
+                    <div class="options-container">
+                        <div class="option-row">
+                            <span class="option-label">Quarto / Sala</span>
+                            <button class="option-btn" id="luminarias-tipo-I" onclick="selectLuminariasTipo('I')">Tipo I</button>
+                        </div>
+                        <div class="option-row">
+                            <span class="option-label">Cozinha / Área de serviço</span>
+                            <button class="option-btn" id="luminarias-tipo-II" onclick="selectLuminariasTipo('II')">Tipo II</button>
+                        </div>
+                        <div class="option-row">
+                            <span class="option-label">Escritório</span>
+                            <button class="option-btn" id="luminarias-tipo-III" onclick="selectLuminariasTipo('III')">Tipo III</button>
+                        </div>
+                    </div>
+
+                    <div class="extra-inputs-box">
+                        <span class="section-subtitle">Para calcular a quantidade de lâmpadas (Opcional):</span>
+                        <div class="input-group mt-1">
+                            <label for="luminarias-fluxo">Lúmens da lâmpada (caixa):</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="luminarias-fluxo" placeholder="Ex: 800" min="1">
+                                <span class="unit">lm</span>
+                            </div>
+                        </div>
+                        <div class="input-group mt-1">
+                            <label for="luminarias-potencia">Potência da lâmpada:</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="luminarias-potencia" placeholder="Ex: 9" min="1">
+                                <span class="unit">W</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider-line"></div>
+
+                <div class="result-panel">
+                    <h3>Resultado:</h3>
+                    <div class="result-box" id="result-luminarias">
+                        <p class="placeholder-text">Configure os valores e clique em Calcular.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="screen-footer">
+                <button class="action-btn" onclick="calcularLuminarias()">Calcular</button>
+            </div>
+        </section>
+
+
+        <!-- ==================== TELA 04: DISJUNTORES ==================== -->
+        <section id="screen-disjuntores" class="app-screen">
+            <button class="home-btn" onclick="navigateTo('home')">
+                <img src="icones/home.png" alt="Home">
+            </button>
+
+            <div class="screen-header">
+                <div class="header-card">
+                    <div class="icon-wrapper header-icon-wrapper">
+                        <img src="icones/Disjuntor.png" alt="Disjuntor">
+                    </div>
+                    <h2 class="screen-title">DIMENSIONAMENTO DE DISJUNTORES</h2>
+                </div>
+            </div>
+
+            <div class="screen-body">
+                <div class="control-panel">
+                    <div class="panel-header-btn">CIRCUITO</div>
+                    
+                    <div class="input-group">
+                        <label for="disjuntores-nome">Nome:</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="disjuntores-nome" placeholder="Ex: Chuveiro, Tomadas Cozinha">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="disjuntores-potencia">Potência:</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="disjuntores-potencia" placeholder="0" min="0">
+                            <span class="unit">VA</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="disjuntores-tensao">Tensão:</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="disjuntores-tensao" placeholder="0" min="0">
+                            <span class="unit">V</span>
+                        </div>
+                    </div>
+
+                    <div class="toggle-container">
+                        <button class="toggle-btn" id="disjuntores-tipo-bifasico" onclick="selectDisjuntoresTipo('bifasico')">Bifásico</button>
+                        <button class="toggle-btn" id="disjuntores-tipo-trifasico" onclick="selectDisjuntoresTipo('trifasico')">Trifásico</button>
+                    </div>
+                </div>
+
+                <div class="divider-line"></div>
+
+                <div class="result-panel">
+                    <h3>Resultado:</h3>
+                    <div class="result-box" id="result-disjuntores">
+                        <p class="placeholder-text">Configure os valores e clique em Calcular.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="screen-footer">
+                <button class="action-btn" onclick="calcularDisjuntores()">Calcular</button>
+            </div>
+        </section>
+
+
+        <!-- ==================== TELA 05: BITOLA ==================== -->
+        <section id="screen-bitola" class="app-screen">
+            <button class="home-btn" onclick="navigateTo('home')">
+                <img src="icones/home.png" alt="Home">
+            </button>
+
+            <div class="screen-header">
+                <div class="header-card">
+                    <div class="icon-wrapper header-icon-wrapper">
+                        <img src="icones/Bitola.png" alt="Bitola">
+                    </div>
+                    <h2 class="screen-title">DIMENSIONAMENTO DE BITOLA</h2>
+                </div>
+            </div>
+
+            <div class="screen-body">
+                <div class="control-panel">
+                    <div class="panel-header-btn">CARGA</div>
+                    
+                    <div class="input-group">
+                        <label for="bitola-nome">Nome do Circuito/Ambiente:</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="bitola-nome" placeholder="Ex: Chuveiro, Tomadas Sala">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="bitola-distancia">Distância do quadro:</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="bitola-distancia" placeholder="0,00" step="0.1" min="0">
+                            <span class="unit">m</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="bitola-corrente">Corrente do disjuntor:</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="bitola-corrente" placeholder="0" min="0">
+                            <span class="unit">A</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="bitola-tensao">Tensão da rede:</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="bitola-tensao" placeholder="0" min="0">
+                            <span class="unit">V</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="bitola-uso">Uso do circuito:</label>
+                        <div class="input-wrapper">
+                            <select id="bitola-uso">
+                                <option value="OUTROS" selected>Outros (Tomadas/Força - Mínimo 2.5mm²)</option>
+                                <option value="ILUMINACAO">Iluminação (Mínimo 1.5mm²)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider-line"></div>
+
+                <div class="result-panel">
+                    <h3>Resultado:</h3>
+                    <div class="result-box" id="result-bitola">
+                        <p class="placeholder-text">Configure os valores e clique em Calcular.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="screen-footer">
+                <button class="action-btn" onclick="calcularBitola()">Calcular</button>
+            </div>
+        </section>
+
+
+        <!-- ==================== TELA 06: TABELA DO PROJETO ==================== -->
+        <section id="screen-tabela" class="app-screen">
+            <button class="home-btn" onclick="navigateTo('home')">
+                <img src="icones/home.png" alt="Home">
+            </button>
+
+            <div class="screen-header">
+                <div class="header-card">
+                    <div class="icon-wrapper header-icon-wrapper">
+                        <img src="icones/tabelas.png" alt="Tabela">
+                    </div>
+                    <h2 class="screen-title">TABELA DO PROJETO</h2>
+                </div>
+            </div>
+
+            <div class="screen-body" style="flex-direction: column; gap: 20px;">
+                <div class="control-panel" style="flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; width: 100%;">
+                    <div class="input-group" style="max-width: 450px; margin-bottom: 0;">
+                        <label for="projeto-nome" style="flex: 0.8; min-width: 130px;">Nome do Projeto:</label>
+                        <div class="input-wrapper" style="flex: 1.2;">
+                            <input type="text" id="projeto-nome" value="Meu Projeto Elétrico" placeholder="Ex: Residência Silva">
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="action-btn-secondary" onclick="salvarProjetoNoBanco()" style="background-color: #198754; color: white; border: 1.5px solid #198754; border-radius: 20px; padding: 10px 20px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">Salvar no Banco (MySQL)</button>
+                        <button class="action-btn-secondary" onclick="exportarPDF()" style="background-color: var(--primary-dark); color: white; border: 1.5px solid var(--border-color); border-radius: 20px; padding: 10px 20px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">Exportar PDF</button>
+                        <button class="action-btn-secondary" onclick="limparTabela()" style="background-color: #dc3545; color: white; border: 1.5px solid #dc3545; border-radius: 20px; padding: 10px 20px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">Limpar Tabela</button>
+                    </div>
+                </div>
+
+                <div class="table-container" style="width: 100%; overflow-x: auto; background-color: rgba(255, 255, 255, 0.5); backdrop-filter: blur(4px); border: 2px solid var(--border-color); border-radius: 12px; padding: 15px;">
+                    <table class="project-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid var(--border-color);">
+                                <th style="padding: 10px; font-weight: 700; color: var(--primary-dark); border-bottom: 2px solid var(--border-color);">Ambiente/Circuito</th>
+                                <th style="padding: 10px; font-weight: 700; color: var(--primary-dark); border-bottom: 2px solid var(--border-color);">Tipo de Cálculo</th>
+                                <th style="padding: 10px; font-weight: 700; color: var(--primary-dark); border-bottom: 2px solid var(--border-color);">Detalhes de Entrada</th>
+                                <th style="padding: 10px; font-weight: 700; color: var(--primary-dark); border-bottom: 2px solid var(--border-color);">Resultado Obtido</th>
+                                <th style="padding: 10px; font-weight: 700; color: var(--primary-dark); border-bottom: 2px solid var(--border-color); text-align: center;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-itens-body">
+                            <!-- Inserido dinamicamente via JS -->
+                        </tbody>
+                    </table>
+                    <div id="tabela-vazia-mensagem" class="placeholder-text" style="margin-top: 20px; margin-bottom: 20px;">
+                        Nenhum cálculo foi adicionado à tabela ainda. Execute cálculos e clique em "+ Tabela" para adicioná-los.
+                    </div>
+                </div>
+
+                <!-- Painel de Projetos Salvos no Banco -->
+                <div class="db-projects-panel" style="width: 100%; background-color: rgba(255, 255, 255, 0.4); backdrop-filter: blur(4px); border: 2px solid var(--border-color); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 12px;">
+                    <h3 style="font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--primary-dark); border-bottom: 2px solid rgba(18, 35, 56, 0.15); padding-bottom: 5px; margin-bottom: 5px;">PROJETOS SALVOS NO BANCO DE DADOS (MySQL)</h3>
+                    
+                    <div id="db-projetos-lista" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;">
+                        <p class="placeholder-text" style="grid-column: 1/-1; margin: 10px 0; text-align: center;">Carregando projetos do banco de dados...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Conteiner Invisível Formatado para Exportação em PDF -->
+        <div id="pdf-template" style="position: absolute; left: -9999px; width: 800px; background: white; padding: 40px; font-family: 'Inter', sans-serif; color: #111111;">
+            <!-- Cabeçalho do Relatório -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #122338; padding-bottom: 20px; margin-bottom: 30px;">
+                <div>
+                    <h1 style="font-family: 'Cinzel', serif; font-size: 2rem; color: #122338; margin: 0; letter-spacing: 1px;">VOLT CALC</h1>
+                    <p style="font-size: 0.85rem; color: #555555; margin: 5px 0 0 0;">Relatório de Dimensionamento Elétrico (NBR 5410)</p>
+                </div>
+                <div style="text-align: right;">
+                    <h2 id="pdf-projeto-nome" style="font-size: 1.2rem; color: #122338; margin: 0; font-weight: 600;">Meu Projeto Elétrico</h2>
+                    <p id="pdf-data-geracao" style="font-size: 0.8rem; color: #555555; margin: 5px 0 0 0;">Data: 17/06/2026</p>
+                </div>
+            </div>
+
+            <!-- Tabela de Dados no PDF -->
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.85rem;">
+                <thead>
+                    <tr style="background-color: #122338; color: white;">
+                        <th style="padding: 12px 10px; text-align: left; border: 1px solid #20354b;">Ambiente/Circuito</th>
+                        <th style="padding: 12px 10px; text-align: left; border: 1px solid #20354b;">Tipo de Cálculo</th>
+                        <th style="padding: 12px 10px; text-align: left; border: 1px solid #20354b;">Detalhes de Entrada</th>
+                        <th style="padding: 12px 10px; text-align: left; border: 1px solid #20354b;">Resultado Obtido</th>
+                    </tr>
+                </thead>
+                <tbody id="pdf-tabela-itens-body">
+                    <!-- Inserido dinamicamente via JS -->
+                </tbody>
+            </table>
+
+            <!-- Rodapé do PDF -->
+            <div style="margin-top: 50px; border-top: 1px solid #dddddd; padding-top: 15px; text-align: center; font-size: 0.75rem; color: #777777;">
+                Volt Calc - Dimensionamento em conformidade com as diretrizes da NBR 5410.
+            </div>
+        </div>
+
+        <!-- Modal de Pré-visualização do PDF -->
+        <div id="pdf-preview-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Pré-visualização do Relatório</h3>
+                    <span class="close-modal-btn" onclick="fecharPreviewModal()">&times;</span>
+                </div>
+                <div class="modal-body" style="padding: 10px; overflow-y: hidden;">
+                    <div id="pdf-preview-container" style="width: 100%; height: 500px; display: flex; justify-content: center; align-items: center; background-color: #e4e4e4; border: 1.5px solid var(--border-color); border-radius: 8px;">
+                        <p class="placeholder-text" style="margin-top: 0; color: var(--text-dark);">Carregando pré-visualização do PDF...</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="action-btn-secondary" onclick="confirmarDownloadPDF()">Confirmar e Baixar PDF</button>
+                    <button class="action-btn-danger" onclick="fecharPreviewModal()">Voltar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
