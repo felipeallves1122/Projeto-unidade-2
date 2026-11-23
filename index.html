@@ -53,16 +53,6 @@
                     <span class="card-title">DIMENSIONAMENTO<br>DE DISJUNTORES</span>
                 </div>
             </nav>
-
-            <!-- Links secundários rápidos para Bitola e Tabela Geral -->
-            <footer class="home-extra-links">
-                <button class="extra-link-btn" onclick="navigateTo('bitola')">
-                    <img src="icones/Bitola.png" alt="Bitola"> Dimensionamento de Bitola
-                </button>
-                <button class="extra-link-btn" onclick="navigateTo('tabela')">
-                    <img src="icones/tabelas.png" alt="Tabela"> Tabela do Projeto
-                </button>
-            </footer>
         </section>
 
 
@@ -274,120 +264,6 @@
 
             <div class="bottom-action">
                 <button type="button" class="calculate-btn" onclick="calcularDisjuntores()">Calcular</button>
-            </div>
-        </section>
-
-
-        <!-- ========================================================
-             TELA EXTRA: BITOLA DE CONDUTORES
-             ======================================================== -->
-        <section id="screen-bitola" class="app-screen">
-            <button class="home-btn" onclick="navigateTo('home')" title="Voltar ao Início" aria-label="Início">
-                <img src="icones/home.png" alt="Início">
-            </button>
-
-            <header class="screen-top-card">
-                <div class="card-icon-frame">
-                    <img src="icones/Bitola.png" alt="Bitola">
-                </div>
-                <h2 class="screen-title">DIMENSIONAMENTO<br>DE BITOLA</h2>
-            </header>
-
-            <div class="screen-content">
-                <div class="form-column">
-                    <div class="pill-badge">CONDUTORES</div>
-
-                    <div class="form-row">
-                        <label for="bitola-nome" class="row-label">Circuito:</label>
-                        <input type="text" id="bitola-nome" class="pill-input" placeholder="Ex: Circuito Geral">
-                    </div>
-
-                    <div class="form-row">
-                        <label for="bitola-potencia" class="row-label">Potência:</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="bitola-potencia" class="pill-input" placeholder="0" min="0">
-                            <span class="unit-tag">W</span>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <label for="bitola-tensao" class="row-label">Tensão:</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="bitola-tensao" class="pill-input" placeholder="220" value="220" min="1">
-                            <span class="unit-tag">V</span>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <label for="bitola-distancia" class="row-label">Distância (m):</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="bitola-distancia" class="pill-input" placeholder="15" value="15" min="1">
-                            <span class="unit-tag">m</span>
-                        </div>
-                    </div>
-
-                    <div class="toggle-group-row">
-                        <button type="button" class="toggle-btn active" id="bitola-uso-geral" onclick="selectBitolaUso('geral')">Tomadas / Geral</button>
-                        <button type="button" class="toggle-btn" id="bitola-uso-ilum" onclick="selectBitolaUso('iluminacao')">Iluminação</button>
-                    </div>
-                </div>
-
-                <div class="vertical-divider"></div>
-
-                <div class="result-column">
-                    <div class="result-box" id="result-box-bitola">
-                        <h3 class="result-box-title">Resultado:</h3>
-                        <div class="result-content" id="result-text-bitola">
-                            <p class="placeholder-msg">Preencha os parâmetros e clique em <strong>Calcular</strong>.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bottom-action">
-                <button type="button" class="calculate-btn" onclick="calcularBitola()">Calcular</button>
-            </div>
-        </section>
-
-
-        <!-- ========================================================
-             TELA EXTRA: TABELA DO PROJETO COMPLETO
-             ======================================================== -->
-        <section id="screen-tabela" class="app-screen">
-            <button class="home-btn" onclick="navigateTo('home')" title="Voltar ao Início" aria-label="Início">
-                <img src="icones/home.png" alt="Início">
-            </button>
-
-            <header class="screen-top-card">
-                <div class="card-icon-frame">
-                    <img src="icones/tabelas.png" alt="Tabela">
-                </div>
-                <h2 class="screen-title">TABELA DO PROJETO</h2>
-            </header>
-
-            <div class="table-container">
-                <div class="table-actions-bar">
-                    <button class="table-bar-btn" onclick="imprimirProjeto()">Imprimir / Salvar PDF</button>
-                    <button class="table-bar-btn btn-danger" onclick="limparTodaTabela()">Limpar Tabela</button>
-                </div>
-
-                <div class="table-responsive">
-                    <table class="project-table" id="tabela-projeto">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Etapa</th>
-                                <th>Ambiente / Circuito</th>
-                                <th>Entrada</th>
-                                <th>Dimensionamento Final</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabela-projeto-corpo">
-                            <!-- Inserido dinamicamente pelo script.js -->
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </section>
 

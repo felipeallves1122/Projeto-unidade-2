@@ -1,7 +1,9 @@
 /**
  * VOLT CALC - Frontend Logic & Electrical Calculations
- * Implementado conforme as telas do Figma (Desktop 1 a 12)
- * e fórmulas elétricas NBR 5410.
+ * Focado exclusivamente nas telas do Figma (Desktop 1 a 12):
+ * - Dimensionamento de Tomadas
+ * - Dimensionamento de Luminárias
+ * - Dimensionamento de Disjuntores
  */
 
 // ==========================================================================
@@ -10,9 +12,6 @@
 let currentTomadasTipo = 'I';
 let currentLuminariasTipo = 'I';
 let currentDisjuntoresFase = 'bifasico';
-let currentBitolaUso = 'geral';
-
-let tabelaItens = [];
 
 // ==========================================================================
 // INICIALIZAÇÃO
@@ -22,10 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     selectTomadasTipo('I');
     selectLuminariasTipo('I');
     selectDisjuntoresFase('bifasico');
-    selectBitolaUso('geral');
-
-    // Carrega dados persistidos da tabela
-    carregarTabelaStorage();
 });
 
 // ==========================================================================
@@ -86,17 +81,6 @@ function selectDisjuntoresFase(fase) {
     });
 }
 
-// Bitola: Geral ou Iluminação
-function selectBitolaUso(uso) {
-    currentBitolaUso = uso;
-    const btnGeral = document.getElementById('bitola-uso-geral');
-    const btnIlum = document.getElementById('bitola-uso-ilum');
-    if (btnGeral && btnIlum) {
-        btnGeral.classList.toggle('active', uso === 'geral');
-        btnIlum.classList.toggle('active', uso === 'iluminacao');
-    }
-}
-
 
 // ==========================================================================
 // CÁLCULOS ELÉTRICOS
@@ -149,11 +133,6 @@ function calcularTomadas() {
             <div class="result-detail-line"><strong>Ambiente:</strong> ${nome} (${tipoDesc})</div>
             <div class="result-detail-line"><strong>Perímetro:</strong> ${perimetro.toFixed(2)} m</div>
             <div class="result-detail-line"><strong>Regra:</strong> ${regra}</div>
-            <div class="result-actions">
-                <button class="add-table-btn" onclick="salvarItemNaTabela('Tomadas', '${nome}', '${perimetro.toFixed(2)}m (${tipoDesc})', '${resultadoFinal}')">
-                    + Adicionar à Tabela
-                </button>
-            </div>
         </div>
     `;
 }
@@ -204,11 +183,6 @@ function calcularLuminarias() {
             <div class="result-detail-line"><strong>Ambiente:</strong> ${nome} (${tipoDesc})</div>
             <div class="result-detail-line"><strong>Fluxo Total Necessário:</strong> ${lumensTotal} lumens</div>
             <div class="result-detail-line"><strong>Lâmpada Adotada:</strong> ${lumensPorLampada} lm cada</div>
-            <div class="result-actions">
-                <button class="add-table-btn" onclick="salvarItemNaTabela('Luminárias', '${nome}', '${area.toFixed(2)}m² (${tipoDesc})', '${resultadoFinal}')">
-                    + Adicionar à Tabela
-                </button>
-            </div>
         </div>
     `;
 }
@@ -271,161 +245,6 @@ function calcularDisjuntores() {
             <div class="result-detail-line"><strong>Circuito:</strong> ${nome} (${faseDesc})</div>
             <div class="result-detail-line"><strong>Corrente Nominal (Ib):</strong> ${corrente.toFixed(2)} A</div>
             <div class="result-detail-line"><strong>Potência / Tensão:</strong> ${potencia} VA / ${tensao} V</div>
-            <div class="result-actions">
-                <button class="add-table-btn" onclick="salvarItemNaTabela('Disjuntores', '${nome}', '${potencia}VA / ${tensao}V (${faseDesc})', '${resultadoFinal} (Ib: ${corrente.toFixed(2)}A)')">
-                    + Adicionar à Tabela
-                </button>
-            </div>
         </div>
     `;
-}
-
-/**
- * 4. DIMENSIONAMENTO DE BITOLA DE CONDUTORES
- * Queda de tensão máxima de 4% com condutor de cobre (ρ = 0.0172 Ω·mm²/m)
- */
-function calcularBitola() {
-    const nome = document.getElementById('bitola-nome').value.trim() || 'Circuito Geral';
-    const potencia = parseFloat(document.getElementById('bitola-potencia').value);
-    const tensao = parseFloat(document.getElementById('bitola-tensao').value);
-    const distancia = parseFloat(document.getElementById('bitola-distancia').value);
-    const resultContainer = document.getElementById('result-text-bitola');
-
-    if (isNaN(potencia) || potencia <= 0 || isNaN(tensao) || tensao <= 0 || isNaN(distancia) || distancia <= 0) {
-        resultContainer.innerHTML = `
-            <div class="result-card" style="border-left-color: var(--danger-red);">
-                <p style="color: var(--danger-red); font-weight: 600;">Preencha todos os parâmetros com valores positivos.</p>
-            </div>
-        `;
-        return;
-    }
-
-    const fp = 0.95;
-    const corrente = Math.ceil(potencia / (tensao * fp));
-    const p = 0.0172;
-    const queda = 0.04;
-    const secaoTeorica = (2 * p * distancia * corrente) / (tensao * queda);
-
-    let secaoComercial = 2.5;
-    const tipoUso = currentBitolaUso === 'iluminacao' ? 'Iluminação' : 'Tomadas / Geral';
-
-    if (secaoTeorica <= 1.5 && currentBitolaUso === 'iluminacao') {
-        secaoComercial = 1.5;
-    } else if (secaoTeorica <= 2.5) {
-        secaoComercial = 2.5;
-    } else if (secaoTeorica <= 4) {
-        secaoComercial = 4;
-    } else if (secaoTeorica <= 6) {
-        secaoComercial = 6;
-    } else if (secaoTeorica <= 10) {
-        secaoComercial = 10;
-    } else {
-        secaoComercial = 'Consultar NBR NM 247-3 (> 10mm²)';
-    }
-
-    const resultadoFinal = typeof secaoComercial === 'number' ? `${secaoComercial} mm²` : secaoComercial;
-
-    resultContainer.innerHTML = `
-        <div class="result-card">
-            <div class="result-main-value">Seção: ${resultadoFinal}</div>
-            <div class="result-detail-line"><strong>Circuito:</strong> ${nome} (${tipoUso})</div>
-            <div class="result-detail-line"><strong>Corrente Calculada:</strong> ${corrente} A</div>
-            <div class="result-detail-line"><strong>Distância:</strong> ${distancia} m | <strong>Queda Máx:</strong> 4%</div>
-            <div class="result-actions">
-                <button class="add-table-btn" onclick="salvarItemNaTabela('Bitola', '${nome}', '${potencia}W, ${distancia}m (${tipoUso})', '${resultadoFinal}')">
-                    + Adicionar à Tabela
-                </button>
-            </div>
-        </div>
-    `;
-}
-
-
-// ==========================================================================
-// GERENCIAMENTO DA TABELA DO PROJETO
-// ==========================================================================
-
-function salvarItemNaTabela(etapa, nome, entrada, resultado) {
-    const novoItem = {
-        id: Date.now(),
-        etapa: etapa,
-        nome: nome,
-        entrada: entrada,
-        resultado: resultado
-    };
-
-    tabelaItens.push(novoItem);
-    salvarTabelaStorage();
-    renderizarTabela();
-    alert(`Item "${nome}" adicionado à Tabela do Projeto com sucesso!`);
-}
-
-function removerItemTabela(id) {
-    tabelaItens = tabelaItens.filter(item => item.id !== id);
-    salvarTabelaStorage();
-    renderizarTabela();
-}
-
-function limparTodaTabela() {
-    if (confirm('Deseja realmente limpar todos os itens da tabela do projeto?')) {
-        tabelaItens = [];
-        salvarTabelaStorage();
-        renderizarTabela();
-    }
-}
-
-function renderizarTabela() {
-    const tbody = document.getElementById('tabela-projeto-corpo');
-    if (!tbody) return;
-
-    if (tabelaItens.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="6" class="table-empty-row">Nenhum cálculo adicionado à tabela ainda. Realize os dimensionamentos e clique em "+ Adicionar à Tabela".</td>
-            </tr>
-        `;
-        return;
-    }
-
-    let html = '';
-    tabelaItens.forEach((item, index) => {
-        html += `
-            <tr>
-                <td><strong>#${index + 1}</strong></td>
-                <td>${item.etapa}</td>
-                <td>${item.nome}</td>
-                <td>${item.entrada}</td>
-                <td><strong>${item.resultado}</strong></td>
-                <td>
-                    <button class="table-del-btn" onclick="removerItemTabela(${item.id})">Remover</button>
-                </td>
-            </tr>
-        `;
-    });
-
-    tbody.innerHTML = html;
-}
-
-function salvarTabelaStorage() {
-    try {
-        localStorage.setItem('volt_calc_tabela', JSON.stringify(tabelaItens));
-    } catch (e) {
-        console.error('Erro ao salvar no localStorage:', e);
-    }
-}
-
-function carregarTabelaStorage() {
-    try {
-        const dados = localStorage.getItem('volt_calc_tabela');
-        if (dados) {
-            tabelaItens = JSON.parse(dados);
-        }
-    } catch (e) {
-        console.error('Erro ao carregar do localStorage:', e);
-    }
-    renderizarTabela();
-}
-
-function imprimirProjeto() {
-    window.print();
 }
